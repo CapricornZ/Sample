@@ -19,26 +19,29 @@
     ">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	
 	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> -->
-	<!--  
-	<bean id="client" class="com.unei.soap.client.IBookService" factory-bean="clientFactory"
-		factory-method="create"/>
-	
-	<bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-		<property name="serviceClass" value="com.unei.soap.client.IBookService"/>
-		<property name="address" value="http://localhost:8080/soap/services/bs"/>
-	</bean>
-	-->
-	
-	<jaxws:client id="client" serviceClass="com.unei.service.IBookService" 
-	address="http://localhost:7001/soap-cxf-server/services/bs">
-		<!-- address="http://localhost:8080/soap-cxf-server/services/bs"> -->
+	<bean id="bsServiceBean" class="com.unei.service.impl.BookService" />
+	<bean id="inLog" class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+	<bean id="outLog" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+
+	<jaxws:server id="bookService" serviceClass="com.unei.service.IBookService" address="/bs">
+		<jaxws:serviceBean>
+			<ref bean="bsServiceBean" />
+		</jaxws:serviceBean>
+		  
+		<jaxws:inInterceptors>
+			<ref bean="inLog" />
+		</jaxws:inInterceptors>
 		
-		<jaxws:handlers>
+		<jaxws:outInterceptors>
+			<ref bean="outLog"/>
+		</jaxws:outInterceptors>
+		
+		<!-- <jaxws:handlers>
 			<bean class="com.unei.handler.CheckHandler"/>
-		</jaxws:handlers>
-	</jaxws:client>
+		</jaxws:handlers> -->
+	</jaxws:server>
 </beans>
