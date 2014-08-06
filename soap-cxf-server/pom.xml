@@ -4,7 +4,7 @@
 	<groupId>onstar.example</groupId>
 	<artifactId>soap-cxf-server</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-RELEASE</version>
 	<name>soap-cxf-server Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
@@ -61,4 +61,10 @@
 	<build>
 		<finalName>soap-cxf-server</finalName>
 	</build>
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<url>http://localhost:8081/nexus/content/repositories/thirdparty/</url>
+		</repository>
+	</distributionManagement>
 </project>
